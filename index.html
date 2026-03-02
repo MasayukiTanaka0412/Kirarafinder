@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>きらら系アニメおすすめ診断（Yes/No 10問）</title>
+  <style>
+    :root{
+      --bg:#fff7fb;
+      --card:#ffffff;
+      --ink:#1d1d1f;
+      --muted:#5b5b67;
+      --accent:#ff6aa2;
+      --accent2:#7c66ff;
+      --line:#f0d7e4;
+      --shadow: 0 10px 30px rgba(0,0,0,.06);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", "Segoe UI", Arial, sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(900px 500px at 10% 0%, rgba(255,106,162,.18), transparent 60%),
+        radial-gradient(900px 500px at 90% 10%, rgba(124,102,255,.16), transparent 55%),
+        linear-gradient(180deg, var(--bg), #ffffff);
+      min-height:100vh;
+    }
+    header{
+      padding: 42px 18px 18px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .title{
+      display:flex; gap:14px; align-items:flex-start; flex-wrap:wrap;
+    }
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      background: rgba(255,106,162,.12);
+      color: #b40048;
+      border:1px solid rgba(255,106,162,.25);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-weight: 650;
+      letter-spacing:.02em;
+      font-size: 13px;
+      box-shadow: 0 10px 22px rgba(255,106,162,.10);
+    }
+    h1{
+      margin: 10px 0 6px;
+      font-size: clamp(26px, 2.8vw, 40px);
+      line-height: 1.12;
+      letter-spacing: .01em;
+    }
+    .sub{
+      color:var(--muted);
+      line-height:1.6;
+      max-width: 75ch;
+      margin: 0;
+      font-size: 15px;
+    }
+    main{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 14px 18px 56px;
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 18px;
+    }
+    @media (max-width: 980px){
+      main{grid-template-columns: 1fr; }
+    }
+    .card{
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding: 16px 16px 10px;
+      border-bottom: 1px solid var(--line);
+      display:flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .card .hd h2{
+      margin:0;
+      font-size: 18px;
+      letter-spacing:.02em;
+    }
+    .card .hd .hint{
+      color:var(--muted);
+      font-size: 12px;
+    }
+    .card .bd{
+      padding: 14px 16px 16px;
+    }
+    .toolbar{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-bottom: 12px;
+    }
+    input[type="search"]{
+      flex: 1 1 240px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      outline: none;
+      background: #fff;
+    }
+    select{
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+    button{
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,106,162,.35);
+      background: rgba(255,106,162,.10);
+      color:#a4003f;
+      font-weight: 700;
+      cursor:pointer;
+    }
+    button:hover{ filter: brightness(0.98); }
+    button.secondary{
+      border: 1px solid rgba(124,102,255,.30);
+      background: rgba(124,102,255,.10);
+      color:#3b2ed6;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    @media (max-width: 560px){
+      .grid{grid-template-columns: 1fr;}
+    }
+    .anime{
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px 12px 10px;
+      background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.98));
+    }
+    .anime .t{
+      display:flex;
+      gap:8px;
+      align-items:flex-start;
+      justify-content: space-between;
+    }
+    .anime h3{
+      margin:0;
+      font-size: 15px;
+      line-height:1.25;
+    }
+    .meta{
+      color:var(--muted);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+    .desc{
+      margin: 8px 0 0;
+      color:#2a2a33;
+      line-height: 1.55;
+      font-size: 13px;
+    }
+    .tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      margin-top: 10px;
+    }
+    .tag{
+      font-size: 11px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color:#3d3d49;
+      background: rgba(255,106,162,.06);
+    }
+    .tag.cool{ background: rgba(124,102,255,.08); }
+    .tag.dark{ background: rgba(0,0,0,.06); }
+    .qa{
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+    .q{
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px 12px;
+      background: #fff;
+    }
+    .q .qt{
+      font-weight: 700;
+      margin-bottom: 10px;
+      line-height:1.35;
+    }
+    .q .opts{
+      display:flex; gap:8px; flex-wrap:wrap;
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      border: 1px solid var(--line);
+      padding: 8px 10px;
+      border-radius: 999px;
+      cursor:pointer;
+      user-select:none;
+      background:#fff;
+      font-size: 13px;
+    }
+    .pill input{ margin:0; }
+    .result{
+      padding: 14px 16px 16px;
+    }
+    .big{
+      font-size: 18px;
+      font-weight: 850;
+      margin: 0 0 6px;
+    }
+    .why{
+      color:var(--muted);
+      line-height: 1.6;
+      margin: 0 0 12px;
+      font-size: 13px;
+    }
+    .twoCol{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 560px){
+      .twoCol{grid-template-columns: 1fr;}
+    }
+    .mini{
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px 10px;
+      background:#fff;
+    }
+    .mini b{display:block; margin-bottom: 4px;}
+    footer{
+      max-width:1100px;
+      margin: 0 auto;
+      padding: 0 18px 36px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    .tinyNote{
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(0,0,0,.04);
+      border: 1px dashed rgba(0,0,0,.10);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="title">
+      <div class="badge">🌸 きらら系アニメ</div>
+      <div class="badge" style="background:rgba(124,102,255,.10); border-color:rgba(124,102,255,.20); color:#3b2ed6;">
+        ✅ Yes/No 10問でおすすめ
+      </div>
+    </div>
+    <h1>きらら系アニメおすすめ診断</h1>
+    <p class="sub">
+      「今の気分」に合う“きらら”を、10個のYes/Noでゆるっと提案するよ〜。<br/>
+      右で診断 → 左で候補一覧を眺めつつ、気に入ったらそのまま観にいこっ。
+    </p>
+  </header>
+
+  <main>
+    <!-- Left: List -->
+    <section class="card" aria-label="きらら系アニメ一覧">
+      <div class="hd">
+        <h2>放映済み きらら系アニメ（概要つき）</h2>
+        <div class="hint">検索・フィルタできます</div>
+      </div>
+      <div class="bd">
+        <div class="toolbar">
+          <input id="search" type="search" placeholder="例：キャンプ / バンド / 魔法 / お仕事 / 恋愛…" />
+          <select id="filter">
+            <option value="all">全部</option>
+            <option value="comfy">日常・癒やし</option>
+            <option value="work">お仕事</option>
+            <option value="music">音楽</option>
+            <option value="romance">恋愛</option>
+            <option value="sports">スポーツ</option>
+            <option value="fantasy">ファンタジー</option>
+            <option value="dark">ちょい闇/サスペンス</option>
+            <option value="comedy">コメディ強め</option>
+          </select>
+          <button class="secondary" id="shuffle">気分でランダム3本</button>
+        </div>
+        <div id="list" class="grid"></div>
+
+        <div class="tinyNote">
+          ※「きらら系」は芳文社『まんがタイムきらら』系列誌（きらら/キャラット/MAX/ミラク/フォワード等）原作のアニメを中心に収録。映画・特別編は代表的なものを入れてるよ。
+        </div>
+      </div>
+    </section>
+
+    <!-- Right: Quiz -->
+    <section class="card" aria-label="おすすめ診断">
+      <div class="hd">
+        <h2>おすすめ診断（Yes/No 10問）</h2>
+        <div class="hint">迷ってる時ほど効く…かも</div>
+      </div>
+      <div class="bd">
+        <div id="qa" class="qa"></div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+          <button id="calc">おすすめを出す</button>
+          <button class="secondary" id="reset">リセット</button>
+        </div>
+
+        <div class="result" id="result" style="display:none;">
+          <p class="big" id="pickTitle"></p>
+          <p class="why" id="pickWhy"></p>
+
+          <div class="twoCol">
+            <div class="mini">
+              <b>あらすじ（短め）</b>
+              <div id="pickDesc" style="font-size:13px; line-height:1.6;"></div>
+            </div>
+            <div class="mini">
+              <b>こんな人に刺さりやすい</b>
+              <ul id="pickFor" style="margin:6px 0 0 18px; padding:0; font-size:13px; line-height:1.6;"></ul>
+            </div>
+          </div>
+
+          <div class="mini" style="margin-top:10px;">
+            <b>注意ポイント（合わない時の理由）</b>
+            <div id="pickCaution" style="font-size:13px; line-height:1.6;"></div>
+          </div>
+
+          <div class="mini" style="margin-top:10px;">
+            <b>次点のおすすめ（2本）</b>
+            <ol id="runnerUps" style="margin:6px 0 0 18px; padding:0; font-size:13px; line-height:1.6;"></ol>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div>
+      <b>ちいさなアドバイス</b><br/>
+      ・「癒やし目的」で選ぶときは、刺激（闇/サスペンス/強い恋愛）が少ない作品から入るのが安全だよ〜。<br/>
+      ・逆に、いつも日常だけだと飽きちゃう人は、たまに「スパイス枠（例：ちょい闇/お仕事の修羅場）」を混ぜると満足度上がりやすいよ。
+    </div>
+  </footer>
+
+<script>
+/**
+ * きらら系：放映済み中心データ（短い概要はサイト用に要約）
+ * tags: comfy, work, music, romance, sports, fantasy, dark, comedy
+ */
+const ANIME = [
+  {title:"ひだまりスケッチ", year:2007, tags:["comfy","comedy"], desc:"美術科に通うゆのが“ひだまり荘”で仲間と過ごす、やさしい日常と成長のスケッチ。", for:["まったり日常が好き","キャラ同士の距離感を味わいたい","長く付き合える作品がいい"], caution:"テンポはゆるめ。派手な展開を求めると物足りないかも。"},
+  {title:"ドージンワーク", year:2007, tags:["comedy","work"], desc:"同人活動に飛び込んだ主人公が、締切と友情と迷走で走り回るクリエイター系コメディ。", for:["創作あるあるが好き","バタバタ感を楽しめる","軽いギャグで笑いたい"], caution:"ノリが合う/合わないが出やすいタイプ。"},
+  {title:"けいおん！", year:2009, tags:["music","comfy","comedy"], desc:"軽音部に入った女子高生たちが、お茶しつつ音楽しつつ青春する名作。", for:["ゆるい青春が好き","バンドもの入門したい","かわいくて笑えるのがいい"], caution:"“部活のガチさ”より空気感重視。熱い音楽ドラマを期待すると違うかも。"},
+  {title:"映画けいおん！", year:2011, tags:["music","comfy"], desc:"卒業旅行を軸に、いつもの日常がちょっと特別に見えるごほうび映画。", for:["TV版が好き","後味の良い締めが欲しい","旅の雰囲気が好き"], caution:"単体でも観られるけど、TV版の積み重ねがあると沁みやすい。"},
+  {title:"かなめも", year:2009, tags:["comfy","comedy"], desc:"新聞配達所で働くことになった少女が、居場所と家族みたいな仲間を見つけていく日常。", for:["あったかい共同生活もの","少し生活感のある日常が好き","人間関係の距離が好き"], caution:"ギャグの癖が合わないと温度差が出るかも。"},
+  {title:"GA 芸術科アートデザインクラス", year:2009, tags:["comedy","comfy"], desc:"芸術科のゆるい日常。ちょっと不思議な会話のリズムがクセになる。", for:["会話劇が好き","ゆるいボケツッコミが好き","絵/デザイン空気が好き"], caution:"ストーリーより“会話の味”寄り。"},
+  {title:"夢喰いメリー", year:2011, tags:["fantasy","dark"], desc:"夢の世界と現実が交差する、異能×バトル×ちょいダークなファンタジー。", for:["日常だけじゃ物足りない","能力バトルも欲しい","雰囲気重視のファンタジーが好き"], caution:"重めの展開が入るので、癒やし目的の日は避けてもOK。"},
+  {title:"Aチャンネル", year:2011, tags:["comfy","comedy"], desc:"仲良し4人組の、ゆるくて可愛い学校生活。ボケがやさしい。", for:["安心して見たい","日常ギャグが好き","キャラの関係性が好き"], caution:"起伏は少なめ。BGMみたいに流す用途だと最高。"},
+  {title:"キルミーベイベー", year:2012, tags:["comedy"], desc:"殺し屋×忍者×おバカの勢いコメディ。テンポで殴ってくる。", for:["短いギャグで笑いたい","勢いを浴びたい","ツッコミに耐性ある"], caution:"騒がしめ。疲れてる日は合わない可能性あり。"},
+  {title:"あっちこっち", year:2012, tags:["romance","comedy","comfy"], desc:"ツンデレ気味の“わかりやすい好意”が可愛い、ゆる甘ラブコメ。", for:["軽い恋愛が見たい","糖度は欲しいけど重いのは嫌","ほっこりしたい"], caution:"進展はゆっくり。大きい恋愛ドラマを求めると肩透かしかも。"},
+  {title:"ゆゆ式", year:2013, tags:["comedy","comfy"], desc:"“情報処理部”の3人が、言葉遊びと雑談で世界をふくらませていく会話系日常。", for:["雑談の間が好き","言葉のノリを楽しめる","ゆるい笑いが好き"], caution:"会話劇特化。集中して観るとハマるけど、合わないと眠くなるかも。"},
+  {title:"きんいろモザイク", year:2013, tags:["comfy","comedy"], desc:"日英まじりのほわほわ日常。文化差ギャグと友情があったかい。", for:["明るい空気を浴びたい","ゆるい異文化交流が好き","可愛いで回復したい"], caution:"強いストーリーは薄め。雰囲気を味わうタイプ。"},
+  {title:"ハロー!!きんいろモザイク", year:2015, tags:["comfy","comedy"], desc:"仲良し度がさらに増して、日常の幸福密度が上がる続編。", for:["1期が好き","もっとこの空気に浸りたい","癒やし補給したい"], caution:"まずは1期からが安全。"},
+  {title:"桜Trick", year:2014, tags:["romance","comedy"], desc:"“キスで友情を確かめる”…みたいな、甘め百合ラブコメ。", for:["甘い恋愛が見たい","百合コメディが好き","軽やかなドキドキが欲しい"], caution:"糖度高め。照れが苦手だとキツいかも。"},
+  {title:"ご注文はうさぎですか？", year:2014, tags:["comfy","comedy"], desc:"喫茶店と街の空気と、かわいい日常。ふわふわ成分が濃い。", for:["とにかく癒やし","可愛い会話を浴びたい","街の雰囲気が好き"], caution:"“事件”は起きない。刺激を求めると退屈に感じるかも。"},
+  {title:"ご注文はうさぎですか??", year:2015, tags:["comfy","comedy"], desc:"日常の解像度が上がって、キャラの“好き”が増える2期。", for:["1期が好き","関係性を深く見たい","ゆるい笑いが好き"], caution:"空気を楽しめないと合わないタイプ。"},
+  {title:"ご注文はうさぎですか？ BLOOM", year:2020, tags:["comfy","comedy"], desc:"みんなの“居場所”がさらに尊くなる3期。", for:["積み重ねで泣けるタイプ","やさしい日常が好き","シリーズ完走したい"], caution:"先に1期→2期推奨。"},
+  {title:"ハナヤマタ", year:2014, tags:["comfy","music"], desc:"よさこいに出会って世界が広がる、青春＋きらめき。", for:["前向きな成長もの","踊り/お祭りの空気が好き","友情で元気になりたい"], caution:"王道青春が苦手だと刺さりにくいかも。"},
+  {title:"幸腹グラフィティ", year:2015, tags:["comfy"], desc:"ごはんと“誰かと食べる時間”が主役の、あったか日常。", for:["食べ物アニメ好き","しみる日常が好き","穏やかな気持ちになりたい"], caution:"食描写が強め。空腹時に見ると危険。"},
+  {title:"城下町のダンデライオン", year:2015, tags:["comedy","comfy"], desc:"王族の兄妹が“能力”を抱えつつ、わちゃわちゃ家族する。", for:["家族コメディが好き","ちょい能力ものも欲しい","ほっこりしたい"], caution:"設定が多いので1話で合わないと感じる場合も。"},
+  {title:"わかば＊ガール", year:2015, tags:["comedy","comfy"], desc:"ちょい短尺テンポで、天然お嬢様のズレが可愛いコメディ。", for:["短くサクッと","軽いギャグが好き","日常で笑いたい"], caution:"短尺ゆえに深いドラマは少なめ。"},
+  {title:"がっこうぐらし！", year:2015, tags:["dark"], desc:"“日常”の顔をしたまま、ある前提が崩れていくサスペンス。", for:["ギャップが好き","先の読めないきららが見たい","緊張感も欲しい"], caution:"精神的にくる回がある。癒やし目的の夜には非推奨。"},
+  {title:"あんハピ♪", year:2016, tags:["comedy","comfy"], desc:"不運属性の集まりが、逆に元気にがんばるドタバタ日常。", for:["前向きギャグ","失敗しても笑える話が好き","明るさが欲しい"], caution:"騒がしめ。静かに癒やされたい時は別作品がいいかも。"},
+  {title:"三者三葉", year:2016, tags:["comedy"], desc:"性格の尖った3人がぶつかりつつ、だんだん馴染むコメディ。", for:["強めのツッコミが好き","キャラの癖が欲しい","テンポよく笑いたい"], caution:"序盤は当たりが強めに感じるかも。"},
+  {title:"NEW GAME!", year:2016, tags:["work","comedy","comfy"], desc:"ゲーム会社で働く新人が、先輩に揉まれながら成長するお仕事日常。", for:["お仕事もの好き","チーム開発の空気が好き","がんばる新人が好き"], caution:"仕事の理不尽さは薄め。リアル職場ドラマを期待すると違うかも。"},
+  {title:"ステラのまほう", year:2016, tags:["comfy","work"], desc:"同人ゲーム制作で、仲間と“できた！”を積み重ねる創作日常。", for:["創作/制作の話が好き","優しい部活ノリが好き","成長ものが好き"], caution:"制作の泥臭さは控えめ。癒やし寄り。"},
+  {title:"うらら迷路帖", year:2017, tags:["fantasy","comedy"], desc:"占い師を目指す少女たちの、和風ファンタジー×日常。", for:["和風/不思議世界が好き","可愛い＋冒険が欲しい","軽いファンタジーが好き"], caution:"世界観のノリに合うかで好みが分かれる。"},
+  {title:"ブレンド・S", year:2017, tags:["comedy","work","romance"], desc:"属性カフェで“キャラ演技”しながら、勘違いで転がるラブコメ。", for:["勢いギャグ","職場コメディ","軽い恋愛も欲しい"], caution:"ギャグの濃さが合わないと疲れるかも。"},
+  {title:"スロウスタート", year:2018, tags:["comfy","romance"], desc:"スタートが遅れた少女が、少しずつ友達と日常を取り戻すやさしい話。", for:["優しい回復物語","繊細な心情が好き","安心して見たい"], caution:"テンポはゆっくり。刺激より“寄り添い”重視。"},
+  {title:"ゆるキャン△", year:2018, tags:["comfy"], desc:"キャンプとごはんと冬の空気。静かに満たされるアウトドア日常。", for:["癒やし最優先","旅/景色が好き","落ち着いて回復したい"], caution:"超スロー。テンション上げたい時は別枠が良いかも。"},
+  {title:"へやキャン△", year:2020, tags:["comfy","comedy"], desc:"短尺でサクッと、ゆるキャンの空気を軽めに味わう。", for:["短く回復したい","本編の箸休め","気軽に見たい"], caution:"本編みたいな“旅の厚み”は少なめ。"},
+  {title:"映画 ゆるキャン△", year:2022, tags:["comfy"], desc:"大人になった彼女たちが“もう一回キャンプ場作ろう”って動く、しみる映画。", for:["成長後の姿が見たい","じんわりしたい","シリーズ好き"], caution:"TV版の積み重ねがあるとより刺さる。"},
+  {title:"ゆるキャン△ SEASON2", year:2021, tags:["comfy"], desc:"旅成分が増えて、景色とごはんの幸福感がさらに強い続編。", for:["1期が好き","旅気分になりたい","静かに満たされたい"], caution:"相変わらずスロー。眠い日に見ると即落ち注意。"},
+  {title:"ゆるキャン△ SEASON3", year:2024, tags:["comfy"], desc:"新しい旅と仲間の温度感。シリーズの“安定した良さ”を継続。", for:["シリーズ継続勢","安心して見たい","旅の空気が好き"], caution:"新鮮な刺激より、安定した癒やし。"},
+  {title:"こみっくがーるず", year:2018, tags:["comedy","work","comfy"], desc:"漫画家寮で、描けない不安と創作の喜びを抱えながら成長する。", for:["創作あるある","頑張る子が好き","優しい応援が欲しい"], caution:"“創作の悩み”が刺さりすぎる人は注意。"},
+  {title:"はるかなレシーブ", year:2018, tags:["sports","comedy","comfy"], desc:"ビーチバレーで、コンビの呼吸を作っていく爽やかスポーツ。", for:["スポーツで元気になりたい","青春コンビもの","前向きになりたい"], caution:"スポ根の熱さはほどほど。爽やか寄り。"},
+  {title:"アニマエール！", year:2018, tags:["sports","comedy"], desc:"チアで全力応援！テンションで押してくる元気系。", for:["元気が欲しい","応援されたい","勢いギャグが好き"], caution:"テンション高め。静かに観たい時は不向き。"},
+  {title:"まちカドまぞく", year:2019, tags:["comedy","fantasy","comfy"], desc:"ポンコツ魔族が、元魔法少女（今は味方）と日常を回す脱力コメディ。", for:["掛け合いが好き","設定コメディが好き","じわじわハマりたい"], caution:"序盤は情報多め。2〜3話まで見ると温度が合いやすい。"},
+  {title:"まちカドまぞく 2丁目", year:2022, tags:["comedy","fantasy","comfy"], desc:"関係性と世界観が加速して、笑いと熱さがちょっと増える続編。", for:["1期が好き","掛け合いの密度が欲しい","話も進んでほしい"], caution:"1期前提が強い。"},
+  {title:"恋する小惑星", year:2020, tags:["comfy"], desc:"地学（天文/地質）を通して、ゆるく夢を追う部活日常。", for:["理科っぽい空気が好き","落ち着いた青春","静かな成長が好き"], caution:"派手さは少ない。しみるタイプ。"},
+  {title:"球詠", year:2020, tags:["sports"], desc:"女子野球でチームを作っていく、勝負と友情のスポーツもの。", for:["スポーツが見たい","チームで強くなる話","試合が好き"], caution:"作画やテンポの好みが分かれやすい。"},
+  {title:"おちこぼれフルーツタルト", year:2020, tags:["music","comedy","work"], desc:"崖っぷち少女たちがアイドル活動で立て直す、騒がしくて可愛いコメディ。", for:["アイドルものが好き","ドタバタが好き","ちょいセクションでもOK"], caution:"ノリが強い＆サービス強め回あり。苦手なら避けても大丈夫。"},
+  {title:"スローループ", year:2022, tags:["comfy"], desc:"フライフィッシングを通して“家族”になっていく、静かな回復日常。", for:["癒やし＋少し泣ける","自然と生活感","落ち着いた関係性"], caution:"ゆるめ。刺激より“しみる”。"},
+  {title:"RPG不動産", year:2022, tags:["fantasy","comedy","comfy"], desc:"異世界で家探しを手伝う不動産屋。ゆるいファンタジー日常。", for:["異世界を軽く味わいたい","可愛い×仕事","難しい話は要らない"], caution:"深い世界設定より日常寄り。"},
+  {title:"ぼっち・ざ・ろっく！", year:2022, tags:["music","comedy"], desc:"陰キャギタリストがバンドに入って、心が折れながら成長する爆笑＆共感系。", for:["音楽ものが見たい","コミュ障共感が刺さる","笑って元気になりたい"], caution:"演出が派手で情報量多め。疲れてる時は眩しい可能性。"},
+  {title:"星屑テレパス", year:2023, tags:["comfy"], desc:"人と話すのが苦手な少女が、“宇宙から来た”不思議な子と出会って変わる。", for:["優しい交流もの","繊細な心情が好き","静かに前向きになりたい"], caution:"ゆっくり進む。急に盛り上がる作品ではない。"},
+  {title:"mono", year:2025, tags:["comfy","comedy"], desc:"写真/映像っぽい“週末”の空気を、ゆるっと味わう日常。", for:["ゆるキャン系の空気が好き","週末の癒やしが欲しい","景色/趣味の雰囲気"], caution:"ドラマ強めではない。雰囲気を吸うタイプ。"},
+  {title:"ばっどがーる", year:2025, tags:["comedy","romance"], desc:"“不良っぽくなりたい”少女が空回りしつつ、憧れの先輩に近づこうとするコメディ。", for:["勢いラブコメ","空回り主人公が好き","軽く笑いたい"], caution:"ノリが騒がしめ。静かな癒やし目的には不向き。"},
+];
+
+/** 10問（Yes/No） */
+const QUESTIONS = [
+  { id:"q1", text:"今日は、心を“回復”させたい（癒やし最優先）", weight:{comfy:3, comedy:1} },
+  { id:"q2", text:"笑えるテンポが欲しい（ツッコミ/ギャグ歓迎）", weight:{comedy:3} },
+  { id:"q3", text:"音楽・バンド・歌など“音”があると嬉しい", weight:{music:3} },
+  { id:"q4", text:"軽めでもいいので恋愛要素が欲しい", weight:{romance:3} },
+  { id:"q5", text:"お仕事・制作・部活の“がんばり”が見たい", weight:{work:3} },
+  { id:"q6", text:"スポーツ/勝負の要素があると燃える", weight:{sports:3} },
+  { id:"q7", text:"ファンタジー（魔法/異世界/不思議）が好き", weight:{fantasy:3} },
+  { id:"q8", text:"ちょい闇・サスペンス・ギャップ展開もOK", weight:{dark:3} },
+  { id:"q9", text:"派手な演出や勢いがあっても楽しめる", weight:{comedy:2, music:1} },
+  { id:"q10", text:"“会話の間”や空気感を味わうのが好き", weight:{comfy:2} },
+];
+
+/** UI描画 */
+const $ = (sel)=>document.querySelector(sel);
+const listEl = $("#list");
+const qaEl = $("#qa");
+
+function tagBadge(tag){
+  const label = {
+    comfy:"日常/癒やし", work:"お仕事/制作", music:"音楽", romance:"恋愛",
+    sports:"スポーツ", fantasy:"ファンタジー", dark:"ちょい闇", comedy:"コメディ"
+  }[tag] || tag;
+
+  let cls = "tag";
+  if(tag==="music" || tag==="fantasy") cls += " cool";
+  if(tag==="dark") cls += " dark";
+  return `<span class="${cls}">${label}</span>`;
+}
+
+function renderList(items){
+  listEl.innerHTML = items.map(a=>`
+    <article class="anime">
+      <div class="t">
+        <h3>${escapeHtml(a.title)}</h3>
+        <div class="meta">${a.year}</div>
+      </div>
+      <p class="desc">${escapeHtml(a.desc)}</p>
+      <div class="tags">${a.tags.map(tagBadge).join("")}</div>
+    </article>
+  `).join("");
+}
+
+function renderQuestions(){
+  qaEl.innerHTML = QUESTIONS.map((q, idx)=>`
+    <div class="q">
+      <div class="qt">Q${idx+1}. ${escapeHtml(q.text)}</div>
+      <div class="opts">
+        <label class="pill"><input type="radio" name="${q.id}" value="yes"> Yes</label>
+        <label class="pill"><input type="radio" name="${q.id}" value="no"> No</label>
+      </div>
+    </div>
+  `).join("");
+}
+
+function escapeHtml(s){
+  return String(s)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+/** 診断：タグ得点 → 作品スコア */
+function calc(){
+  // 回答を集計
+  const tagScore = Object.create(null);
+
+  // 未回答チェック
+  for(const q of QUESTIONS){
+    const v = document.querySelector(`input[name="${q.id}"]:checked`)?.value;
+    if(!v){
+      alert("まだ答えてない質問があるみたい…！10問全部Yes/Noしてね。");
+      return;
+    }
+    if(v==="yes"){
+      for(const [tag, w] of Object.entries(q.weight)){
+        tagScore[tag] = (tagScore[tag] || 0) + w;
+      }
+    }
+  }
+
+  // 作品ごとにスコア計算
+  const scored = ANIME.map(a=>{
+    let s = 0;
+    for(const t of a.tags){
+      s += (tagScore[t] || 0);
+    }
+    // ちょい補正：タグ数が多いほど得しすぎないようにする（軽く）
+    s = s / Math.max(1, (a.tags.length ** 0.2));
+    return { anime:a, score:s };
+  }).sort((x,y)=> y.score - x.score);
+
+  const top = scored[0];
+  const second = scored[1];
+  const third = scored[2];
+
+  // 理由文（Yesが多い上位タグを抽出）
+  const topTags = Object.entries(tagScore)
+    .sort((a,b)=> b[1]-a[1])
+    .slice(0,3)
+    .map(([t])=>({
+      comfy:"癒やし",
+      comedy:"笑い",
+      music:"音楽",
+      romance:"恋愛",
+      work:"お仕事/制作",
+      sports:"スポーツ",
+      fantasy:"ファンタジー",
+      dark:"ちょい闇"
+    }[t] || t));
+
+  const why = `あなたの回答だと「${topTags.join("・")}」成分が強めだったから、この作品がいちばん相性よさそう。`;
+
+  // 表示
+  $("#result").style.display = "block";
+  $("#pickTitle").textContent = `おすすめ：${top.anime.title}（${top.anime.year}）`;
+  $("#pickWhy").textContent = why;
+  $("#pickDesc").textContent = top.anime.desc;
+
+  const ul = $("#pickFor");
+  ul.innerHTML = top.anime.for.map(x=>`<li>${escapeHtml(x)}</li>`).join("");
+
+  $("#pickCaution").textContent = top.anime.caution;
+
+  const ru = $("#runnerUps");
+  ru.innerHTML = [second, third].map(x=>`<li>${escapeHtml(x.anime.title)}（${x.anime.year}）</li>`).join("");
+
+  // 左の検索欄に作品名を入れて見つけやすくする（地味に便利）
+  $("#search").value = top.anime.title;
+  applyFilters();
+}
+
+/** 検索/フィルタ */
+function applyFilters(){
+  const q = $("#search").value.trim().toLowerCase();
+  const f = $("#filter").value;
+
+  const filtered = ANIME.filter(a=>{
+    const hay = (a.title + " " + a.desc + " " + a.tags.join(" ")).toLowerCase();
+    if(q && !hay.includes(q)) return false;
+    if(f !== "all" && !a.tags.includes(f)) return false;
+    return true;
+  });
+
+  renderList(filtered);
+}
+
+function resetAll(){
+  $("#search").value = "";
+  $("#filter").value = "all";
+  document.querySelectorAll('input[type="radio"]').forEach(r=> r.checked = false);
+  $("#result").style.display = "none";
+  renderList(ANIME);
+}
+
+function shuffle3(){
+  const copy = [...ANIME];
+  // Fisher-Yates
+  for(let i=copy.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [copy[i],copy[j]] = [copy[j],copy[i]];
+  }
+  renderList(copy.slice(0,3));
+}
+
+renderQuestions();
+renderList(ANIME);
+
+$("#search").addEventListener("input", applyFilters);
+$("#filter").addEventListener("change", applyFilters);
+$("#calc").addEventListener("click", calc);
+$("#reset").addEventListener("click", resetAll);
+$("#shuffle").addEventListener("click", shuffle3);
+</script>
+</body>
+</html>
